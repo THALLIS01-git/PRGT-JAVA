@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐍 Universo das Serpentes | Guia Interativo de Biologia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0f0a;
+            --bg-card: #111b13;
+            --bg-card-hover: #162018;
+            --green-dark: #0d3b1e;
+            --green-mid: #1a6b3a;
+            --green-light: #4ade80;
+            --green-glow: #22c55e;
+            --gold: #e6b800;
+            --gold-light: #fcd34d;
+            --red: #ef4444;
+            --red-dark: #7f1d1d;
+            --amber: #f59e0b;
+            --blue: #3b82f6;
+            --text: #e2e8f0;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border: #1e2e22;
+            --border-active: #2d5a38;
+            --radius-sm: 10px;
+            --radius: 16px;
+            --radius-lg: 20px;
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5);
+            --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.7);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Montserrat', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: radial-gradient(ellipse at 20% 10%, rgba(34, 197, 94, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 90%, rgba(34, 197, 94, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0) 0%, #0a0f0a 100%);
+        }
+
+        /* ========== PARTICLES BACKGROUND ========== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--green-light);
+            animation: floatUp linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.7;
+            }
+
+            90% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(10, 15, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            padding: 10px 24px;
+            background: rgba(10, 15, 10, 0.95);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .logo-icon {
+            font-size: 2.4rem;
+            animation: snakePulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 12px rgba(34, 197, 94, 0.5));
+        }
+
+        @keyframes snakePulse {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            25% {
+                transform: scale(1.08) rotate(3deg);
+            }
+
+            50% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            75% {
+                transform: scale(1.08) rotate(-3deg);
+            }
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--green-light), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .presentation-badge {
+            background: var(--green-dark);
+            border: 1px solid var(--green-mid);
+            color: var(--green-light);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: glowBadge 2.5s ease-in-out infinite;
+        }
+
+        @keyframes glowBadge {
+
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+            }
+        }
+
+        .presentation-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green-glow);
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        /* ========== FILTER CHIPS ========== */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            padding: 9px 18px;
+            border-radius: 30px;
+            border: 1.5px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: var(--font);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--border-active);
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .filter-chip.active {
+            background: var(--green-dark);
+            border-color: var(--green-mid);
+            color: var(--green-light);
+            box-shadow: 0 0 16px rgba(34, 197, 94, 0.2);
+        }
+
+        .filter-chip .count {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2px 9px;
+            font-size: 0.7rem;
+            margin-left: 6px;
+            font-weight: 700;
+        }
+
+        .filter-chip.active .count {
+            background: rgba(34, 197, 94, 0.25);
+            color: var(--green-light);
+        }
+
+        /* ========== MAIN GRID ========== */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 24px 40px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin-left: 12px;
+            min-width: 40px;
+        }
+
+        .species-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 18px;
+        }
+
+        /* ========== CARDS REESTRUTURADOS ========== */
+        .species-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 280px;
+        }
+
+        .species-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-active);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-active);
+            background: var(--bg-card-hover);
+        }
+
+        .species-card:active {
+            transform: scale(0.97);
+            transition: 0.1s;
+        }
+
+        .card-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background: #0d1a10;
+            flex-shrink: 0;
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .species-card:hover .card-img-wrap img {
+            transform: scale(1.08);
+        }
+
+        .card-img-fallback {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0d2b15, #1a4a28, #0d2b15);
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .card-img-wrap img.error~.card-img-fallback,
+        .card-img-wrap img[src=""]~.card-img-fallback {
+            display: flex;
+        }
+
+        /* Diferencial sobre a imagem */
+        .card-diferencial {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 14px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+            text-align: center;
+            z-index: 3;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .species-card:hover .card-diferencial {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
+        }
+
+        .card-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 10px;
+            border-radius: 12px;
+            white-space: nowrap;
+            z-index: 4;
+        }
+
+        .species-card:hover .card-hint {
+            opacity: 1;
+        }
+
+        /* ========== MODAL OVERLAY ========== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: #111b14;
+            border: 1px solid var(--border-active);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 900px;
+            max-height: 88vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-modal);
+            transform: translateY(30px) scale(0.94);
+            transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: sticky;
+            top: 16px;
+            right: 16px;
+            float: right;
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-close:hover {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: var(--red);
+            color: #fca5a5;
+            transform: rotate(90deg);
+        }
+
+        .modal-img-section {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            min-height: 200px;
+            overflow: hidden;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            background: #0a1a0e;
+            flex-shrink: 0;
+        }
+
+        .modal-img-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(17, 27, 20, 1) 0%, transparent 50%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .modal-img-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 7px 16px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            text-transform: uppercase;
+        }
+
+        .modal-content {
+            padding: 24px 28px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .modal-content h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .modal-content .sci-name {
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--green-light);
+            font-weight: 500;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 12px;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: var(--transition);
+        }
+
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--border-active);
+        }
+
+        .info-item .info-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .info-item .info-value {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .curiosity-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(34, 197, 94, 0.02));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            position: relative;
+        }
+
+        .curiosity-box::before {
+            content: '💡 Curiosidade';
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: var(--green-light);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .curiosity-box p {
+            color: #d1d5db;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+
+        .modal-nav {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 4px;
+        }
+
+        .modal-nav button {
+            padding: 10px 20px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            cursor: pointer;
+            font-family: var(--font);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .modal-nav button:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-active);
+        }
+
+        /* ========== ANATOMY SECTION (PRESERVADA) ========== */
+        .anatomy-section {
+            max-width: 1400px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .anatomy-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .anatomy-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .anatomy-card .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .anatomy-svg-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            cursor: default;
+        }
+
+        .anatomy-svg-wrap svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .hotspot {
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .hotspot circle {
+            fill: rgba(34, 197, 94, 0.5);
+            stroke: var(--green-light);
+            stroke-width: 2;
+            transition: var(--transition);
+            animation: hotspotPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes hotspotPulse {
+
+            0%,
+            100% {
+                r: 9;
+                opacity: 0.8;
+            }
+
+            50% {
+                r: 13;
+                opacity: 1;
+            }
+        }
+
+        .hotspot:hover circle {
+            fill: rgba(250, 204, 21, 0.7);
+            stroke: var(--gold-light);
+            r: 15;
+            animation: none;
+        }
+
+        .hotspot-label {
+            fill: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            pointer-events: none;
+            text-anchor: middle;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .hotspot:hover .hotspot-label {
+            opacity: 1;
+        }
+
+        .anatomy-tooltip {
+            position: absolute;
+            background: #1a2a1d;
+            border: 1px solid var(--green-mid);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+            white-space: nowrap;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .anatomy-tooltip.visible {
+            opacity: 1;
+        }
+
+        /* ========== RECORDS STRIP (PRESERVADO) ========== */
+        .records-strip {
+            max-width: 1400px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .records-scroll {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .records-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .records-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .records-scroll::-webkit-scrollbar-thumb {
+            background: var(--border-active);
+            border-radius: 4px;
+        }
+
+        .record-card {
+            flex: 0 0 auto;
+            min-width: 200px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            scroll-snap-align: start;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .record-card:hover {
+            border-color: var(--border-active);
+            background: var(--bg-card-hover);
+        }
+
+        .record-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .record-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .record-value {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--green-light);
+        }
+
+        .record-sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* ========== FOOTER (PRESERVADO) ========== */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .footer strong {
+            color: var(--green-light);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+                gap: 10px;
+            }
+
+            .logo-text h1 {
+                font-size: 1.2rem;
+            }
+
+            .logo-icon {
+                font-size: 1.8rem;
+            }
+
+            .species-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 10px;
+            }
+
+            .card-img-wrap {
+                height: 160px;
+            }
+
+            .card-diferencial {
+                font-size: 0.75rem;
+                padding: 8px 10px;
+            }
+
+            .species-card {
+                min-height: 220px;
+            }
+
+            .modal {
+                max-width: 98vw;
+                max-height: 92vh;
+                border-radius: var(--radius);
+            }
+
+            .modal-img-section {
+                height: 180px;
+            }
+
+            .modal-content {
+                padding: 16px;
+            }
+
+            .modal-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .info-item {
+                padding: 10px 12px;
+            }
+
+            .filter-chip {
+                padding: 7px 13px;
+                font-size: 0.75rem;
+            }
+
+            .anatomy-card {
+                padding: 16px;
+            }
+
+            .record-card {
+                min-width: 150px;
+                padding: 12px 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .species-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .card-img-wrap {
+                height: 130px;
+            }
+
+            .card-diferencial {
+                font-size: 0.7rem;
+                padding: 6px 8px;
+            }
+
+            .species-card {
+                min-height: 180px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PARTICLES -->
+    <div class="particles" id="particles"></div>
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="logo" onclick="scrollToTop()" title="Voltar ao topo">
+                <span class="logo-icon">🐍</span>
+                <div class="logo-text">
+                    <h1>Universo das Serpentes</h1>
+                    <span>Guia Interativo · Biologia</span>
+                </div>
+            </div>
+            <div class="presentation-badge">
+                <span class="dot"></span> Complemento de Apresentação
+            </div>
+        </div>
+        <div class="filter-bar" id="filterBar">
+            <button class="filter-chip active" data-filter="todas">Todas <span class="count"
+                    id="countTodas">10</span></button>
+            <button class="filter-chip" data-filter="venenosa">🔴 Venenosas <span class="count"
+                    id="countVenenosa">0</span></button>
+            <button class="filter-chip" data-filter="constritora">🟡 Constritoras <span class="count"
+                    id="countConstritora">0</span></button>
+            <button class="filter-chip" data-filter="nao-peconhenta">🔵 Não-peçonhentas <span class="count"
+                    id="countNaoPeconhenta">0</span></button>
+        </div>
+    </header>
+
+    <!-- MAIN GRID (CARDS REESTRUTURADOS) -->
+    <main class="main-container">
+        <div class="section-title">📋 Explore as Espécies — clique em um card para ver detalhes</div>
+        <div class="species-grid" id="speciesGrid">
+            <!-- Cards gerados via JS -->
+        </div>
+    </main>
+
+    <!-- ANATOMY SECTION (PRESERVADA INTACTA) -->
+    <section class="anatomy-section">
+        <div class="anatomy-card">
+            <h3>🔬 Anatomia Interativa da Serpente</h3>
+            <p class="subtitle">Passe o mouse ou toque nos pontos verdes para identificar as estruturas.</p>
+            <div class="anatomy-svg-wrap" id="anatomyWrap">
+                <svg viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <linearGradient id="snakeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#2d5a20" />
+                            <stop offset="30%" stop-color="#4a8c35" />
+                            <stop offset="60%" stop-color="#3d7028" />
+                            <stop offset="100%" stop-color="#1e3d15" />
+                        </linearGradient>
+                        <pattern id="scalePattern" patternUnits="userSpaceOnUse" width="12" height="10"
+                            patternTransform="rotate(5)">
+                            <ellipse cx="6" cy="5" rx="5" ry="3.5" fill="none" stroke="rgba(255,255,255,0.08)"
+                                stroke-width="0.8" />
+                        </pattern>
+                    </defs>
+                    <path
+                        d="M60,90 C120,40 180,140 250,90 C320,40 380,140 450,90 C520,40 580,140 650,90 C700,55 740,70 760,80"
+                        stroke="url(#snakeGrad)" stroke-width="32" stroke-linecap="round" fill="none" opacity="0.9" />
+                    <path
+                        d="M60,90 C120,40 180,140 250,90 C320,40 380,140 450,90 C520,40 580,140 650,90 C700,55 740,70 760,80"
+                        stroke="url(#scalePattern)" stroke-width="32" stroke-linecap="round" fill="none"
+                        opacity="0.6" />
+                    <path
+                        d="M60,90 C120,40 180,140 250,90 C320,40 380,140 450,90 C520,40 580,140 650,90 C700,55 740,70 760,80"
+                        stroke="#1a3a15" stroke-width="34" stroke-linecap="round" fill="none" opacity="0.5"
+                        style="filter:blur(3px)" />
+                    <polygon points="30,90 60,72 60,108" fill="#3d7028" stroke="#5a9e3f" stroke-width="2" />
+                    <circle cx="42" cy="86" r="4" fill="#fcd34d" stroke="#1a1a1a" stroke-width="1.5" />
+                    <circle cx="42" cy="86" r="1.5" fill="#000" />
+                    <line x1="30" y1="90" x2="8" y2="82" stroke="#e74c3c" stroke-width="1.8" stroke-linecap="round" />
+                    <line x1="8" y1="82" x2="0" y2="76" stroke="#e74c3c" stroke-width="1.5" stroke-linecap="round" />
+                    <line x1="8" y1="82" x2="0" y2="88" stroke="#e74c3c" stroke-width="1.5" stroke-linecap="round" />
+                    <path
+                        d="M60,90 C120,40 180,140 250,90 C320,40 380,140 450,90 C520,40 580,140 650,90 C700,55 740,70 760,80"
+                        stroke="#5a9e3f" stroke-width="26" stroke-linecap="round" fill="none" opacity="0.25"
+                        stroke-dasharray="3,8" />
+                    <g class="hotspot" data-part="Cabeça"
+                        data-desc="Abriga o cérebro, olhos, narinas e a boca com as presas.">
+                        <circle cx="44" cy="88" r="9" />
+                        <text class="hotspot-label" x="44" y="72" font-size="9">Cabeça</text>
+                    </g>
+                    <g class="hotspot" data-part="Presas inoculadoras"
+                        data-desc="Dentes modificados para injetar veneno (em espécies peçonhentas).">
+                        <circle cx="55" cy="82" r="9" />
+                        <text class="hotspot-label" x="55" y="66" font-size="9">Presas</text>
+                    </g>
+                    <g class="hotspot" data-part="Escamas dorsais"
+                        data-desc="Protegem o corpo, reduzem o atrito e auxiliam na locomoção.">
+                        <circle cx="280" cy="100" r="9" />
+                        <text class="hotspot-label" x="280" y="84" font-size="9">Escamas</text>
+                    </g>
+                    <g class="hotspot" data-part="Coração (região)"
+                        data-desc="Localizado aproximadamente a 1/4 do comprimento do corpo, a partir da cabeça.">
+                        <circle cx="180" cy="70" r="9" />
+                        <text class="hotspot-label" x="180" y="54" font-size="9">Coração</text>
+                    </g>
+                    <g class="hotspot" data-part="Pulmão funcional"
+                        data-desc="A maioria das serpentes possui apenas o pulmão direito desenvolvido.">
+                        <circle cx="350" cy="65" r="9" />
+                        <text class="hotspot-label" x="350" y="49" font-size="9">Pulmão</text>
+                    </g>
+                    <g class="hotspot" data-part="Cloaca"
+                        data-desc="Abertura única para os sistemas excretor, digestório e reprodutor.">
+                        <circle cx="620" cy="88" r="9" />
+                        <text class="hotspot-label" x="620" y="72" font-size="9">Cloaca</text>
+                    </g>
+                    <g class="hotspot" data-part="Cauda"
+                        data-desc="Região pós-cloacal; em algumas espécies, termina em chocalho ou espinho.">
+                        <circle cx="740" cy="78" r="9" />
+                        <text class="hotspot-label" x="740" y="62" font-size="9">Cauda</text>
+                    </g>
+                </svg>
+                <div class="anatomy-tooltip" id="anatomyTooltip"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RECORDS STRIP (PRESERVADO) -->
+    <section class="records-strip">
+        <div class="section-title">🏆 Recordes e Superlativos</div>
+        <div class="records-scroll">
+            <div class="record-card"><span class="record-icon">📏</span><span class="record-title">Maior
+                    serpente</span><span class="record-value">Píton-reticulada</span><span class="record-sub">até 10
+                    metros</span></div>
+            <div class="record-card"><span class="record-icon">⚖️</span><span class="record-title">Mais
+                    pesada</span><span class="record-value">Sucuri-verde</span><span class="record-sub">até 250
+                    kg</span></div>
+            <div class="record-card"><span class="record-icon">☠️</span><span class="record-title">Veneno mais
+                    letal</span><span class="record-value">Taipan-do-interior</span><span class="record-sub">DL50: 0,025
+                    mg/kg</span></div>
+            <div class="record-card"><span class="record-icon">⚡</span><span class="record-title">Ataque mais
+                    rápido</span><span class="record-value">Cascavel</span><span class="record-sub">70
+                    milissegundos</span></div>
+            <div class="record-card"><span class="record-icon">🦷</span><span class="record-title">Maiores
+                    presas</span><span class="record-value">Gaboon Viper</span><span class="record-sub">até 5 cm</span>
+            </div>
+            <div class="record-card"><span class="record-icon">🕰️</span><span class="record-title">Mais
+                    longeva</span><span class="record-value">Jiboia</span><span class="record-sub">40+ anos em
+                    cativeiro</span></div>
+            <div class="record-card"><span class="record-icon">🌍</span><span class="record-title">Maior
+                    distribuição</span><span class="record-value">Cobra-rateira</span><span class="record-sub">4
+                    continentes</span></div>
+        </div>
+    </section>
+
+    <!-- FOOTER (PRESERVADO) -->
+    <footer class="footer">
+        <p>🐍 <strong>Universo das Serpentes</strong> — Guia interativo para complemento de apresentação de Biologia |
+            Dados compilados de fontes científicas | © 2026</p>
+    </footer>
+
+    <!-- MODAL OVERLAY (PRESERVADO) -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" id="modalClose" title="Fechar">✕</button>
+            <div class="modal-img-section" id="modalImgSection">
+                <img src="" alt="" id="modalImg">
+                <div class="modal-img-overlay"></div>
+                <div class="modal-img-badge" id="modalBadge"></div>
+            </div>
+            <div class="modal-content" id="modalContent">
+                <!-- Preenchido via JS -->
+            </div>
+            <div class="modal-nav">
+                <button id="modalPrev">← Anterior</button>
+                <button id="modalNext">Próximo →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== SPECIES DATA ==========
+        const speciesData = [{
+            id: 'jararaca',
+            nomePopular: 'Jararaca',
+            nomeCientifico: 'Bothrops jararaca',
+            familia: 'Viperidae',
+            tipo: 'venenosa',
+            perigo: 'Alto',
+            tamanho: '1,2 a 1,6 m',
+            peso: '2 a 5 kg',
+            distribuicao: 'Brasil (Sudeste/Sul), Paraguai, Argentina',
+            habitat: 'Florestas tropicais, áreas agrícolas',
+            dieta: 'Pequenos mamíferos, aves, anfíbios',
+            reproducao: 'Vivípara — 12 a 18 filhotes por ninhada',
+            veneno: 'Hemotóxico — causa necrose, dor intensa e distúrbios de coagulação',
+            curiosidades: 'Responsável pela maioria dos acidentes ofídicos no Brasil. Seu veneno inspirou o desenvolvimento do captopril, medicamento anti-hipertensivo.',
+            status: 'Pouco preocupante (LC)',
+            imagem: 'https://herptrips.com.br/wp-content/uploads/2021/04/Bothrops-jararaca-Bruno-Ferreto-Fiorillo-HerpTrips-1200x800-1-768x512.jpg',
+            diferencial: 'Inspirou medicamento anti-hipertensivo'
+        }, {
+            id: 'cascavel',
+            nomePopular: 'Cascavel',
+            nomeCientifico: 'Crotalus durissus',
+            familia: 'Viperidae',
+            tipo: 'venenosa',
+            perigo: 'Alto',
+            tamanho: '1,5 a 1,9 m',
+            peso: '3 a 6 kg',
+            distribuicao: 'Américas (do Canadá à Argentina)',
+            habitat: 'Cerrados, caatingas, campos abertos',
+            dieta: 'Roedores, pequenos mamíferos',
+            reproducao: 'Vivípara — 8 a 16 filhotes',
+            veneno: 'Neurotóxico e hemotóxico — pode causar paralisia e insuficiência renal',
+            curiosidades: 'Possui um chocalho na ponta da cauda formado por segmentos de queratina. Cada troca de pele adiciona um novo anel.',
+            status: 'Pouco preocupante (LC)',
+            imagem: 'https://mapeandoconcursos.com/wp-content/uploads/2023/07/chocalho-cascavel.webp',
+            diferencial: 'Chocalho de queratina na cauda'
+        }, {
+            id: 'coral',
+            nomePopular: 'Coral-verdadeira',
+            nomeCientifico: 'Micrurus corallinus',
+            familia: 'Elapidae',
+            tipo: 'venenosa',
+            perigo: 'Extremo',
+            tamanho: '0,7 a 1,0 m',
+            peso: '0,3 a 0,8 kg',
+            distribuicao: 'Brasil (Mata Atlântica), Argentina, Paraguai',
+            habitat: 'Florestas tropicais, solo úmido sob folhas',
+            dieta: 'Pequenas serpentes, lagartos',
+            reproducao: 'Ovípara — 3 a 8 ovos',
+            veneno: 'Neurotóxico — pode causar parada respiratória em horas',
+            curiosidades: 'Existem falsas-corais (não-peçonhentas) que imitam seu padrão de cores. A coral-verdadeira tem presas inoculadoras na parte frontal da boca.',
+            status: 'Pouco preocupante (LC)',
+            imagem: 'https://s2-g1.glbimg.com/o9Km9awrD8RhNLfj4KBJLtjmafw=/1280x0/filters:format(jpeg)/https://i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2021/r/m/hZE50SQDSuR3nCB5aUSA/whatsapp-image-2021-04-05-at-22.56.08.jpeg',
+            diferencial: 'Veneno neurotóxico letal'
+        }, {
+            id: 'jiboia',
+            nomePopular: 'Jiboia',
+            nomeCientifico: 'Boa constrictor',
+            familia: 'Boidae',
+            tipo: 'constritora',
+            perigo: 'Baixo (para humanos)',
+            tamanho: '2,5 a 4,0 m',
+            peso: '15 a 45 kg',
+            distribuicao: 'Américas (México à Argentina)',
+            habitat: 'Florestas tropicais, savanas',
+            dieta: 'Mamíferos de médio porte, aves, lagartos',
+            reproducao: 'Vivípara — 20 a 50 filhotes',
+            veneno: 'Não peçonhenta — mata por constrição (sufocamento)',
+            curiosidades: 'Possui fossetas loreais (sensores térmicos) que detectam calor das presas. Pode viver mais de 30 anos em cativeiro.',
+            status: 'Pouco preocupante (LC), mas ameaçada pelo tráfico',
+            imagem: 'https://bicharada.net/animais/fotos/1537.jpg',
+            diferencial: 'Vive mais de 30 anos'
+        }, {
+            id: 'sucuri',
+            nomePopular: 'Sucuri-verde',
+            nomeCientifico: 'Eunectes murinus',
+            familia: 'Boidae',
+            tipo: 'constritora',
+            perigo: 'Moderado',
+            tamanho: '5 a 9 m',
+            peso: '60 a 250 kg',
+            distribuicao: 'América do Sul (bacias amazônica e do Prata)',
+            habitat: 'Rios, pântanos, áreas alagadas',
+            dieta: 'Capivaras, jacarés, peixes, aves aquáticas',
+            reproducao: 'Vivípara — 20 a 40 filhotes',
+            veneno: 'Não peçonhenta — constritora aquática',
+            curiosidades: 'É a serpente mais pesada do mundo. Passa a maior parte do tempo na água; olhos e narinas ficam no topo da cabeça.',
+            status: 'Pouco preocupante (LC)',
+            imagem: 'https://i.pinimg.com/736x/f0/60/aa/f060aa4bd4b2cba53856a73186af9dec--anaconda-snake-green-anaconda.jpg',
+            diferencial: 'A mais pesada do mundo'
+        }, {
+            id: 'naja',
+            nomePopular: 'Naja-indiana',
+            nomeCientifico: 'Naja naja',
+            familia: 'Elapidae',
+            tipo: 'venenosa',
+            perigo: 'Extremo',
+            tamanho: '1,5 a 2,0 m',
+            peso: '3 a 5 kg',
+            distribuicao: 'Índia, Paquistão, Sri Lanka, Bangladesh',
+            habitat: 'Florestas, campos agrícolas, áreas urbanas',
+            dieta: 'Roedores, sapos, aves',
+            reproducao: 'Ovípara — 20 a 30 ovos',
+            veneno: 'Neurotóxico e cardiotóxico — paralisia rápida',
+            curiosidades: 'Famosa por exibir o "capuz" ao se sentir ameaçada, expandindo as costelas cervicais. É reverenciada na cultura hindu.',
+            status: 'Quase ameaçada (NT)',
+            imagem: 'https://1.bp.blogspot.com/-DJTD4d2ilfE/UEaOjor9vcI/AAAAAAAAE-8/qbU5RmKfLj4/s1600/naja.jpg',
+            diferencial: 'Exibe capuz ao se ameaçar'
+        }, {
+            id: 'piton',
+            nomePopular: 'Píton-reticulada',
+            nomeCientifico: 'Python reticulatus',
+            familia: 'Pythonidae',
+            tipo: 'constritora',
+            perigo: 'Moderado',
+            tamanho: '6 a 10 m',
+            peso: '75 a 160 kg',
+            distribuicao: 'Sudeste Asiático, Indonésia, Filipinas',
+            habitat: 'Florestas tropicais, áreas alagadas',
+            dieta: 'Mamíferos de grande porte, aves',
+            reproducao: 'Ovípara — 25 a 80 ovos (a fêmea incuba)',
+            veneno: 'Não peçonhenta — constrição potente',
+            curiosidades: 'É a serpente mais longa do mundo (confirmado). A fêmea gera calor muscular para incubar os ovos.',
+            status: 'Pouco preocupante (LC)',
+            imagem: 'https://s2.dmcdn.net/v/MhZM51WUNg_UFfiif/x1080',
+            diferencial: 'A mais longa do mundo'
+        }, {
+            id: 'cobra-real',
+            nomePopular: 'Cobra-real',
+            nomeCientifico: 'Ophiophagus hannah',
+            familia: 'Elapidae',
+            tipo: 'venenosa',
+            perigo: 'Extremo',
+            tamanho: '3,5 a 5,5 m',
+            peso: '6 a 12 kg',
+            distribuicao: 'Sudeste Asiático, Índia, Indonésia',
+            habitat: 'Florestas densas, manguezais',
+            dieta: 'Principalmente outras serpentes (ofiófaga)',
+            reproducao: 'Ovípara — 20 a 50 ovos (constrói ninho)',
+            veneno: 'Neurotóxico — quantidade injetada pode matar um elefante',
+            curiosidades: 'É a maior serpente venenosa do mundo. Única serpente que constrói ninho para os ovos. Pode erguer 1/3 do corpo.',
+            status: 'Vulnerável (VU)',
+            imagem: 'https://cdn.colombia.com/sdi/2022/10/31/serpiente-cobra-real-catalogada-venenosa-escapo-de-un-zoologico-1079896.jpg',
+            diferencial: 'Maior venenosa do mundo'
+        }, {
+            id: 'mucurana',
+            nomePopular: 'Muçurana',
+            nomeCientifico: 'Clelia clelia',
+            familia: 'Colubridae',
+            tipo: 'nao-peconhenta',
+            perigo: 'Baixíssimo',
+            tamanho: '1,5 a 2,5 m',
+            peso: '1,5 a 3 kg',
+            distribuicao: 'Américas Central e do Sul',
+            habitat: 'Florestas, áreas agrícolas',
+            dieta: 'Principalmente serpentes (inclusive venenosas)',
+            reproducao: 'Ovípara — 12 a 24 ovos',
+            veneno: 'Possui veneno de baixa toxicidade para humanos (dentição opistóglifa)',
+            curiosidades: 'É imune ao veneno de jararacas e cascavéis. Conhecida como "cobra-do-bem" por se alimentar de serpentes peçonhentas.',
+            status: 'Pouco preocupante (LC)',
+            imagem: 'https://a-z-animals.com/media/2022/03/shutterstock_92648104.jpg',
+            diferencial: 'Imune ao veneno de jararacas'
+        }, {
+            id: 'cobra-cipo',
+            nomePopular: 'Cobra-cipó',
+            nomeCientifico: 'Chironius flavolineatus',
+            familia: 'Colubridae',
+            tipo: 'nao-peconhenta',
+            perigo: 'Nenhum',
+            tamanho: '1,0 a 1,5 m',
+            peso: '0,3 a 0,8 kg',
+            distribuicao: 'Brasil, Bolívia, Paraguai',
+            habitat: 'Florestas, cerrados, vegetação arbustiva',
+            dieta: 'Pequenos anfíbios, lagartos',
+            reproducao: 'Ovípara — 6 a 15 ovos',
+            veneno: 'Não peçonhenta — completamente inofensiva',
+            curiosidades: 'Extremamente ágil e arborícola. Seu corpo esguio e coloração verde-oliva lembram um cipó, camuflando-a perfeitamente.',
+            status: 'Pouco preocupante (LC)',
+            imagem: 'https://4.bp.blogspot.com/-0RDW9aPW3lU/TVwGJPAgsfI/AAAAAAAAALk/xqnKhfaSQ9E/s1600/1940181.jpg',
+            diferencial: 'Camuflagem perfeita de cipó'
+        }];
+
+        // ========== DOM REFS ==========
+        const speciesGrid = document.getElementById('speciesGrid');
+        const filterBar = document.getElementById('filterBar');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modal = document.getElementById('modal');
+        const modalClose = document.getElementById('modalClose');
+        const modalImg = document.getElementById('modalImg');
+        const modalBadge = document.getElementById('modalBadge');
+        const modalContent = document.getElementById('modalContent');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalNext = document.getElementById('modalNext');
+        const modalImgSection = document.getElementById('modalImgSection');
+        const anatomyWrap = document.getElementById('anatomyWrap');
+        const anatomyTooltip = document.getElementById('anatomyTooltip');
+        const header = document.getElementById('header');
+
+        let currentFilter = 'todas';
+        let currentSpeciesIndex = 0;
+        let filteredSpecies = [...speciesData];
+
+        // ========== COUNT BY TYPE ==========
+        const countByType = {
+            venenosa: speciesData.filter(s => s.tipo === 'venenosa').length,
+            constritora: speciesData.filter(s => s.tipo === 'constritora').length,
+            'nao-peconhenta': speciesData.filter(s => s.tipo === 'nao-peconhenta').length,
+            todas: speciesData.length
+        };
+        document.getElementById('countVenenosa').textContent = countByType.venenosa;
+        document.getElementById('countConstritora').textContent = countByType.constritora;
+        document.getElementById('countNaoPeconhenta').textContent = countByType['nao-peconhenta'];
+        document.getElementById('countTodas').textContent = countByType.todas;
+
+        // ========== RENDER CARDS (REESTRUTURADO) ==========
+        function getBadgeClass(tipo) {
+            if (tipo === 'venenosa') return 'badge-venenosa';
+            if (tipo === 'constritora') return 'badge-constritora';
+            return 'badge-nao-peconhenta';
+        }
+
+        function getBadgeText(tipo) {
+            if (tipo === 'venenosa') return '⚠️ Venenosa';
+            if (tipo === 'constritora') return '🔄 Constritora';
+            return '✅ Não-peçonhenta';
+        }
+
+        function getDangerEmoji(perigo) {
+            if (perigo === 'Extremo') return '🔴';
+            if (perigo === 'Alto') return '🟠';
+            if (perigo === 'Moderado') return '🟡';
+            if (perigo === 'Baixo (para humanos)') return '🟢';
+            if (perigo === 'Baixíssimo') return '🟢';
+            return '⚪';
+        }
+
+        function renderCards(speciesList) {
+            speciesGrid.innerHTML = '';
+            speciesList.forEach((species, index) => {
+                const card = document.createElement('div');
+                card.className = 'species-card';
+                card.setAttribute('data-index', speciesData.indexOf(species));
+                card.innerHTML = `
+                    <div class="card-img-wrap">
+                        <img src="${species.imagem}" alt="${species.nomePopular}" loading="lazy"
+                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                        <div class="card-img-fallback">🐍</div>
+                        <div class="card-diferencial">✨ ${species.diferencial}</div>
+                    </div>
+                    <div class="card-hint">Clique para detalhes</div>
+                `;
+                card.addEventListener('click', () => openModal(speciesData.indexOf(species)));
+                speciesGrid.appendChild(card);
+            });
+            filteredSpecies = speciesList;
+        }
+
+        // ========== FILTER (PRESERVADO) ==========
+        filterBar.addEventListener('click', (e) => {
+            const chip = e.target.closest('.filter-chip');
+            if (!chip) return;
+            const filter = chip.getAttribute('data-filter');
+            currentFilter = filter;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            let list;
+            if (filter === 'todas') list = [...speciesData];
+            else list = speciesData.filter(s => s.tipo === filter);
+            renderCards(list);
+        });
+
+        // ========== MODAL (PRESERVADO) ==========
+        function openModal(index) {
+            currentSpeciesIndex = index;
+            const species = speciesData[index];
+            modalImg.src = species.imagem;
+            modalImg.style.display = 'block';
+            modalImg.nextElementSibling ? (modalImg.nextElementSibling.style.display = 'none') : null;
+            modalImg.onerror = function () {
+                this.style.display = 'none';
+                const fallback = modalImgSection.querySelector('.card-img-fallback');
+                if (!fallback) {
+                    const fb = document.createElement('div');
+                    fb.className = 'card-img-fallback';
+                    fb.style.cssText =
+                        'display:flex;width:100%;height:100%;background:linear-gradient(135deg,#0d2b15,#1a4a28,#0d2b15);align-items:center;justify-content:center;font-size:5rem;position:absolute;top:0;left:0;border-radius:20px 20px 0 0;';
+                    fb.textContent = '🐍';
+                    modalImgSection.appendChild(fb);
+                } else {
+                    fallback.style.display = 'flex';
+                }
+            };
+            modalBadge.textContent = getBadgeText(species.tipo);
+            modalBadge.className = 'modal-img-badge ' + getBadgeClass(species.tipo);
+            modalContent.innerHTML = `
+                <h2>${species.nomePopular}</h2>
+                <span class="sci-name">${species.nomeCientifico}</span>
+                <div class="info-grid">
+                    <div class="info-item"><span class="info-label">Família</span><span class="info-value">${species.familia}</span></div>
+                    <div class="info-item"><span class="info-label">Tipo</span><span class="info-value">${getBadgeText(species.tipo)}</span></div>
+                    <div class="info-item"><span class="info-label">Periculosidade</span><span class="info-value">${getDangerEmoji(species.perigo)} ${species.perigo}</span></div>
+                    <div class="info-item"><span class="info-label">Tamanho</span><span class="info-value">📏 ${species.tamanho}</span></div>
+                    <div class="info-item"><span class="info-label">Peso</span><span class="info-value">⚖️ ${species.peso}</span></div>
+                    <div class="info-item"><span class="info-label">Distribuição</span><span class="info-value">🌍 ${species.distribuicao}</span></div>
+                    <div class="info-item"><span class="info-label">Habitat</span><span class="info-value">🏞️ ${species.habitat}</span></div>
+                    <div class="info-item"><span class="info-label">Dieta</span><span class="info-value">🍽️ ${species.dieta}</span></div>
+                    <div class="info-item"><span class="info-label">Reprodução</span><span class="info-value">🥚 ${species.reproducao}</span></div>
+                    <div class="info-item"><span class="info-label">Veneno</span><span class="info-value">${species.veneno}</span></div>
+                    <div class="info-item"><span class="info-label">Status IUCN</span><span class="info-value">📋 ${species.status}</span></div>
+                </div>
+                <div class="curiosity-box">
+                    <p>${species.curiosidades}</p>
+                </div>
+            `;
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            updateNavButtons();
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            const fb = modalImgSection.querySelector('.card-img-fallback');
+            if (fb) fb.style.display = 'none';
+            modalImg.style.display = 'block';
+        }
+
+        function updateNavButtons() {
+            const total = filteredSpecies.length;
+            const posInFiltered = filteredSpecies.findIndex(s => s.id === speciesData[currentSpeciesIndex].id);
+            modalPrev.style.display = posInFiltered > 0 ? 'flex' : 'none';
+            modalNext.style.display = posInFiltered < total - 1 ? 'flex' : 'none';
+        }
+
+        function navigateModal(direction) {
+            const posInFiltered = filteredSpecies.findIndex(s => s.id === speciesData[currentSpeciesIndex].id);
+            const newPos = posInFiltered + direction;
+            if (newPos >= 0 && newPos < filteredSpecies.length) {
+                const newSpecies = filteredSpecies[newPos];
+                const realIndex = speciesData.findIndex(s => s.id === newSpecies.id);
+                openModal(realIndex);
+            }
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+        modalPrev.addEventListener('click', () => navigateModal(-1));
+        modalNext.addEventListener('click', () => navigateModal(1));
+        document.addEventListener('keydown', (e) => {
+            if (!modalOverlay.classList.contains('active')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowRight') navigateModal(1);
+            if (e.key === 'ArrowLeft') navigateModal(-1);
+        });
+
+        // ========== ANATOMY INTERACTIVE (PRESERVADO) ==========
+        const hotspots = anatomyWrap.querySelectorAll('.hotspot');
+        hotspots.forEach(hotspot => {
+            hotspot.addEventListener('mouseenter', (e) => {
+                const part = hotspot.getAttribute('data-part');
+                const desc = hotspot.getAttribute('data-desc');
+                anatomyTooltip.innerHTML = `<strong>${part}</strong><br><span style="font-weight:400;font-size:0.75rem;color:#d1d5db;">${desc}</span>`;
+                anatomyTooltip.classList.add('visible');
+            });
+            hotspot.addEventListener('mousemove', (e) => {
+                const rect = anatomyWrap.getBoundingClientRect();
+                const x = e.clientX - rect.left + 15;
+                const y = e.clientY - rect.top - 55;
+                anatomyTooltip.style.left = x + 'px';
+                anatomyTooltip.style.top = y + 'px';
+            });
+            hotspot.addEventListener('mouseleave', () => {
+                anatomyTooltip.classList.remove('visible');
+            });
+            hotspot.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const part = hotspot.getAttribute('data-part');
+                const desc = hotspot.getAttribute('data-desc');
+                anatomyTooltip.innerHTML = `<strong>${part}</strong><br><span style="font-weight:400;font-size:0.75rem;color:#d1d5db;">${desc}</span>`;
+                anatomyTooltip.classList.add('visible');
+                const rect = anatomyWrap.getBoundingClientRect();
+                const touch = e.touches[0];
+                anatomyTooltip.style.left = (touch.clientX - rect.left + 15) + 'px';
+                anatomyTooltip.style.top = (touch.clientY - rect.top - 55) + 'px';
+            }, { passive: false });
+            hotspot.addEventListener('touchend', () => {
+                setTimeout(() => anatomyTooltip.classList.remove('visible'), 1500);
+            });
+        });
+
+        // ========== PARTICLES (PRESERVADO) ==========
+        const particlesContainer = document.getElementById('particles');
+        function createParticles() {
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 12 + 8) + 's';
+                particle.style.animationDelay = (Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // ========== HEADER SCROLL EFFECT (PRESERVADO) ==========
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 30) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========== INIT ==========
+        renderCards(speciesData);
+
+        // ========== IMAGE FALLBACK FOR ALL CARDS (PRESERVADO) ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.card-img-wrap img').forEach(img => {
+                img.addEventListener('error', function () {
+                    this.style.display = 'none';
+                    const fallback = this.nextElementSibling;
+                    if (fallback && fallback.classList.contains('card-img-fallback')) {
+                        fallback.style.display = 'flex';
+                    }
+                });
+            });
+        });
+
+        console.log('🐍 Universo das Serpentes — Site interativo carregado com sucesso!');
+        console.log('🌿 Explore ' + speciesData.length + ' espécies, anatomia interativa e recordes.');
+        console.log('💡 Dica: Use as setas do teclado para navegar entre espécies no modal.');
+    </script>
+</body>
+
+</html>
